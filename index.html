@@ -1,132 +1,101 @@
 <!DOCTYPE html>
 <html lang="ar">
 <head>
-  <meta charset="UTF-8">
-  <title>Nooryy</title>
-  <style>
-    body {
-      margin: 0;
-      height: 100vh;
-      background: radial-gradient(circle at top, #1a1a1a, #000);
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      font-family: 'Segoe UI', Tahoma, sans-serif;
-      color: white;
-      overflow: hidden;
-    }
+<meta charset="UTF-8">
+<title>Nooryy</title>
+<style>
+  body {
+    margin: 0;
+    height: 100vh;
+    background: radial-gradient(circle at top, #1a1a1a, #000);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-family: 'Segoe UI', Tahoma, sans-serif;
+    color: white;
+    overflow: hidden;
+  }
 
-    .box {
-      background: rgba(255,255,255,0.05);
-      padding: 40px;
-      border-radius: 20px;
-      box-shadow: 0 0 40px rgba(0,0,0,0.6);
-      text-align: center;
-      backdrop-filter: blur(10px);
-    }
+  .box {
+    text-align: center;
+  }
 
-    h1 {
-      margin-bottom: 20px;
-      font-size: 28px;
-    }
+  input, button {
+    padding: 12px;
+    margin: 10px;
+    border-radius: 10px;
+    border: none;
+    font-size: 16px;
+  }
 
-    input {
-      padding: 12px;
-      width: 240px;
-      border-radius: 10px;
-      border: none;
-      outline: none;
-      font-size: 16px;
-      margin-bottom: 15px;
-    }
+  button {
+    background: linear-gradient(135deg,#ff416c,#ff4b2b);
+    color: white;
+    cursor: pointer;
+  }
 
-    button {
-      padding: 12px 25px;
-      border: none;
-      border-radius: 10px;
-      background: linear-gradient(135deg,#ff416c,#ff4b2b);
-      color: white;
-      font-size: 16px;
-      cursor: pointer;
-      transition: 0.3s;
-    }
+  .result {
+    display: none;
+    font-size: 36px;
+    font-weight: bold;
+    position: relative;
+    margin-top: 20px;
+  }
 
-    button:hover {
-      transform: scale(1.05);
-    }
+  .boom {
+    position: absolute;
+    font-size: 24px;
+    font-weight: bold;
+    color: #ff4b2b;
+    animation: explode 1.5s ease-out forwards;
+    pointer-events: none;
+  }
 
-    .meh {
-      margin-top: 20px;
-      cursor: pointer;
-      color: #aaa;
-      transition: 0.3s;
-    }
-
-    .meh:hover {
-      color: #ff4b2b;
-    }
-
-    .boom {
-      position: absolute;
-      font-size: 22px;
-      font-weight: bold;
-      color: #ff4b2b;
-      animation: explode 1.5s ease-out forwards;
-      pointer-events: none;
-    }
-
-    @keyframes explode {
-      0% {
-        transform: scale(0.5);
-        opacity: 0;
-      }
-      50% {
-        transform: scale(1.3);
-        opacity: 1;
-      }
-      100% {
-        transform: scale(0.8);
-        opacity: 0;
-      }
-    }
-  </style>
+  @keyframes explode {
+    0% { transform: scale(0.5); opacity: 0; }
+    50% { transform: scale(1.3); opacity: 1; }
+    100% { transform: scale(0.8); opacity: 0; }
+  }
+</style>
 </head>
 <body>
 
-  <div class="box">
-    <h1>اكتبي اسمك 👀</h1>
-    <input type="text" placeholder="اسمك هنا">
-    <br>
-    <button>التالي</button>
-    <div class="meh" onclick="boom()">مش مهتم</div>
-  </div>
+<div class="box">
+  <h1>اكتب اسمك 👀</h1>
+  <input type="text" id="nameInput" placeholder="اسمك هنا">
+  <br>
+  <button onclick="showResult()">التالي</button>
 
-  <script>
-    const words = [
-      "بووووم 💥",
-      "بوم بوم 🔥",
-      "قصف جبهات 💣",
-      "دمار شامل 😈",
-      "انفجارررر 💥"
-    ];
+  <div class="result" id="result">مش مهتم</div>
+</div>
 
-    function boom() {
-      for (let i = 0; i < 6; i++) {
-        const span = document.createElement("span");
-        span.className = "boom";
-        span.innerText = words[Math.floor(Math.random() * words.length)];
+<script>
+const words = ["بووووم 💥", "بوم بوم 🔥", "قصف جبهات 💣"];
 
-        span.style.left = Math.random() * window.innerWidth + "px";
-        span.style.top = Math.random() * window.innerHeight + "px";
+function showResult() {
+  const input = document.getElementById("nameInput");
+  if(input.value.trim() === "") return;
 
-        document.body.appendChild(span);
+  document.getElementById("result").style.display = "block";
 
-        setTimeout(() => {
-          span.remove();
-        }, 1500);
-      }
-    }
-  </script>
+  // عمل انفجارات حول النص
+  for (let i = 0; i < 8; i++) {
+    const span = document.createElement("span");
+    span.className = "boom";
+    span.innerText = words[Math.floor(Math.random() * words.length)];
+
+    // موقع عشوائي حوالين النص
+    const x = 100 + Math.random() * 200 - 100; // +/- 100 px
+    const y = 100 + Math.random() * 200 - 100;
+    span.style.left = `calc(50% + ${x}px)`;
+    span.style.top = `calc(50% + ${y}px)`;
+
+    document.body.appendChild(span);
+
+    setTimeout(() => { span.remove(); }, 1500);
+  }
+}
+</script>
 
 </body>
 </html>
