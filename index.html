@@ -1,65 +1,132 @@
 <!DOCTYPE html>
 <html lang="ar">
 <head>
-<meta charset="UTF-8">
-<title>👀</title>
-<style>
-body{
-  margin:0;
-  background:black;
-  color:white;
-  font-family:Arial;
-  display:flex;
-  justify-content:center;
-  align-items:center;
-  height:100vh;
-  overflow:hidden;
-}
-#step2{display:none;font-size:50px;font-weight:bold;}
-.explosion{
-  position:absolute;
-  width:10px;
-  height:10px;
-  background:orange;
-  border-radius:50%;
-  animation:boom 1s linear forwards;
-}
-@keyframes boom{
-  from{transform:scale(1);opacity:1;}
-  to{transform:scale(15);opacity:0;}
-}
-</style>
+  <meta charset="UTF-8">
+  <title>Nooryy</title>
+  <style>
+    body {
+      margin: 0;
+      height: 100vh;
+      background: radial-gradient(circle at top, #1a1a1a, #000);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      font-family: 'Segoe UI', Tahoma, sans-serif;
+      color: white;
+      overflow: hidden;
+    }
+
+    .box {
+      background: rgba(255,255,255,0.05);
+      padding: 40px;
+      border-radius: 20px;
+      box-shadow: 0 0 40px rgba(0,0,0,0.6);
+      text-align: center;
+      backdrop-filter: blur(10px);
+    }
+
+    h1 {
+      margin-bottom: 20px;
+      font-size: 28px;
+    }
+
+    input {
+      padding: 12px;
+      width: 240px;
+      border-radius: 10px;
+      border: none;
+      outline: none;
+      font-size: 16px;
+      margin-bottom: 15px;
+    }
+
+    button {
+      padding: 12px 25px;
+      border: none;
+      border-radius: 10px;
+      background: linear-gradient(135deg,#ff416c,#ff4b2b);
+      color: white;
+      font-size: 16px;
+      cursor: pointer;
+      transition: 0.3s;
+    }
+
+    button:hover {
+      transform: scale(1.05);
+    }
+
+    .meh {
+      margin-top: 20px;
+      cursor: pointer;
+      color: #aaa;
+      transition: 0.3s;
+    }
+
+    .meh:hover {
+      color: #ff4b2b;
+    }
+
+    .boom {
+      position: absolute;
+      font-size: 22px;
+      font-weight: bold;
+      color: #ff4b2b;
+      animation: explode 1.5s ease-out forwards;
+      pointer-events: none;
+    }
+
+    @keyframes explode {
+      0% {
+        transform: scale(0.5);
+        opacity: 0;
+      }
+      50% {
+        transform: scale(1.3);
+        opacity: 1;
+      }
+      100% {
+        transform: scale(0.8);
+        opacity: 0;
+      }
+    }
+  </style>
 </head>
 <body>
 
-<div id="step1">
-  <h2>اكتبي اسمك</h2>
-  <input id="name">
-  <br><br>
-  <button onclick="next()">التالي</button>
-</div>
+  <div class="box">
+    <h1>اكتبي اسمك 👀</h1>
+    <input type="text" placeholder="اسمك هنا">
+    <br>
+    <button>التالي</button>
+    <div class="meh" onclick="boom()">مش مهتم</div>
+  </div>
 
-<div id="step2">
-  مش مهتممممممممممممم
-</div>
+  <script>
+    const words = [
+      "بووووم 💥",
+      "بوم بوم 🔥",
+      "قصف جبهات 💣",
+      "دمار شامل 😈",
+      "انفجارررر 💥"
+    ];
 
-<script>
-function next(){
-  document.getElementById("step1").style.display="none";
-  document.getElementById("step2").style.display="block";
-  setTimeout(startExplosions,1500);
-}
-function startExplosions(){
-  setInterval(()=>{
-    const e=document.createElement("div");
-    e.className="explosion";
-    e.style.left=Math.random()*innerWidth+"px";
-    e.style.top=Math.random()*innerHeight+"px";
-    document.body.appendChild(e);
-    setTimeout(()=>e.remove(),1000);
-  },100);
-}
-</script>
+    function boom() {
+      for (let i = 0; i < 6; i++) {
+        const span = document.createElement("span");
+        span.className = "boom";
+        span.innerText = words[Math.floor(Math.random() * words.length)];
+
+        span.style.left = Math.random() * window.innerWidth + "px";
+        span.style.top = Math.random() * window.innerHeight + "px";
+
+        document.body.appendChild(span);
+
+        setTimeout(() => {
+          span.remove();
+        }, 1500);
+      }
+    }
+  </script>
 
 </body>
 </html>
